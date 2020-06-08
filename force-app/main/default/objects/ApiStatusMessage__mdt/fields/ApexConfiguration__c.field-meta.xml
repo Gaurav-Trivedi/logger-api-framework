@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ApexConfiguration__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Apex Configuration</label>
+    <referenceTo>APIApexConfiguration__mdt</referenceTo>
+    <relationshipLabel>API status messages</relationshipLabel>
+    <relationshipName>ApexConfigurations</relationshipName>
+    <required>false</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+		<members>API_EnvironmentConfiguration</members>
+		<members>API_FrontDoor</members>
+		<members>API_FrontDoor_Test</members>
+		<members>API_Interface</members>
+		<members>API_Processor</members>
+		<members>API_StatusMessage</members>
+		<members>HttpRestCallOut</members>
+		<members>HttpRestCallOut_Test</members>
+		<members>Logger</members>
+		<members>Logger_Test</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>Production_URL</members>
+		<name>CustomLabel</name>
+	</types>
+	<types>
+		<members>APIApexConfiguration.frontdoortest</members>
+		<members>APIParameter.TestConfiguration_all</members>
+		<members>APIParameter.TestConfiguration_dev</members>
+		<members>APIParameter.TestConfiguration_uat</members>
+		<members>ApiStatusMessage.XTest</members>
+		<name>CustomMetadata</name>
+	</types>
+	<types>
+		<members>APIApexConfiguration__mdt</members>
+		<members>APIParameter__mdt</members>
+		<members>ApiStatusMessage__mdt</members>
+		<members>Log__c</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>APIApexConfiguration__mdt-API Apex Configuration Layout</members>
+		<members>APIParameter__mdt-API Parameter Layout</members>
+		<members>ApiStatusMessage__mdt-API status message Layout</members>
+		<members>Log__c-Log Layout</members>
+		<name>Layout</name>
+	</types>
+	<version>48.0</version>
+</Package>

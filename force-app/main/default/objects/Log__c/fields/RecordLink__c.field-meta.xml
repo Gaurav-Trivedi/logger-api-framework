@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RecordLink__c</fullName>
+    <description>Salesforce record link</description>
+    <externalId>false</externalId>
+    <formula>IF( NOT(ISBLANK(Record_ID__c)), HYPERLINK( Record_ID__c ,&#39;Record&#39; ),&#39;&#39;)</formula>
+    <label>Record Link</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
