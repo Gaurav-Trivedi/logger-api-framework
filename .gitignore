@@ -31,7 +31,7 @@ $RECYCLE.BIN/
 # ignore prettier fiels
 *.prettierignore
 *.prettierrc
-
+*.cfg
 
 # ignore system files
 .vscode/
