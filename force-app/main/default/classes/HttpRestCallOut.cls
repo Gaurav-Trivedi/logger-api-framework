@@ -42,7 +42,7 @@ public with sharing class HttpRestCallOut {
     public static HttpResponse makeRestApiCall(String serviceName){
         HttpResponse response;
         try{
-            apiParameters = apiParameters == null ? API_EnvironmentConfiguration.getConfiguration(serviceName) : apiParameters;
+            apiParameters = API_EnvironmentConfiguration.getConfiguration(serviceName);
             setHeader(apiParameters.Header__c);
             request.setMethod(apiParameters.RequestMethod__c);
             request.setEndpoint(processEndPoint(apiParameters));
