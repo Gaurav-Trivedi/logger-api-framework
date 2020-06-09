@@ -33,6 +33,10 @@
 		<name>CustomObject</name>
 	</types>
 	<types>
+		<members>Log__c</members>
+		<name>CustomTab</name>
+	</types>
+	<types>
 		<members>APIApexConfiguration__mdt-API Apex Configuration Layout</members>
 		<members>APIParameter__mdt-API Parameter Layout</members>
 		<members>ApiStatusMessage__mdt-API status message Layout</members>
