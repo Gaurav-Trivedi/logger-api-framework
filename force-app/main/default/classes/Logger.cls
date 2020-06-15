@@ -8,7 +8,7 @@
  * @Author              Gaurav Trivedi
  * @Group
  * @Last Modified By    : Gaurav Trivedi
- * @Last Modified On    : 6/5/2020, 12:21:19 PM
+ * @Last Modified On    : 6/12/2020, 9:00:08 AM
  * @Modification Log
  * **********************************************************************************************************************
  *										Modification Log
@@ -149,7 +149,8 @@ public with sharing class Logger {
         try{
             if(dontProcess()) {
                 DmlException e = new DmlException();
-                checkFutureLog('Log',null,parameters(e, 'Logs', String.valueOf(timeStamp())), getAllLimits());
+                String context = Trigger.isExecuting ? Trigger.isBefore ? Trigger.isInsert ? 'Before Insert' : Trigger.isUpdate ? 'Before Update' : Trigger.isDelete ? 'Before Delete' : 'Log' : Trigger.isAfter ? Trigger.isInsert ? 'After Insert' : Trigger.isUpdate ? 'After Update' : Trigger.isDelete ? 'After Delete' : Trigger.isUndelete ? 'After Undelete' : 'Log' : 'Log' : 'Log';
+                checkFutureLog(context,null,parameters(e, 'Logs', String.valueOf(timeStamp())), getAllLimits());
             }
         }catch(Exception ex) {
             exception(ex);
