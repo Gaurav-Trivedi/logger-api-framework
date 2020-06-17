@@ -1,13 +1,13 @@
 /**
  * @Component Name HttpRestCallOut
  * @Created Date   May 4, 2020
- * @Description    Utility class to make HTTP Rest Call out from Salesforce. This class will execute the request if the 
+ * @Description    Utility class to make HTTP Rest Call out from Salesforce. This class will execute the request if the
  *                 API parameter custom metadata type configuration is present with proper service name .
  * @Test Class     HttpRestCallOut_Test with code coverage 98%
  * @Author         Gaurav Trivedi
  * @Group
  * @Last Modified By: Gaurav Trivedi
- * @Last Modified On: 6/5/2020, 11:38:03 AM
+ * @Last Modified On: 6/17/2020, 12:47:43 PM
  * @Modification Log
  * **********************************************************************************************************************
  *										Modification Log
@@ -43,7 +43,7 @@ public with sharing class HttpRestCallOut {
         HttpResponse response;
         try{
             apiParameters = API_EnvironmentConfiguration.getConfiguration(serviceName);
-            setHeader(apiParameters.Header__c);
+            setHeader(apiParameters);
             request.setMethod(apiParameters.RequestMethod__c);
             request.setEndpoint(processEndPoint(apiParameters));
             if(apiParameters.Timeout__c <> null) {
@@ -86,7 +86,7 @@ public with sharing class HttpRestCallOut {
     public static void setBody(String strBody){
         body = strBody;
     }
-    
+
     /**
      * @function    makeRestApiCall
      * @description Use this method to set the body as Blob for Http callout
@@ -142,9 +142,9 @@ public with sharing class HttpRestCallOut {
         String endPoint = apiParameters.EndPoint__c;
         if(endPoint.contains('${')) {
             if(endPoint.containsIgnoreCase('${signature}')) {
-                endPoint = endPoint.replace('${signature}', generateHashCode(true,apiParameters.ClientKey__c,apiParameters.ClientSecret__c));
+                endPoint = endPoint.replace('${signature}', generateHashCode(true,apiParameters.ClientSecret__c,apiParameters.ClientKey__c));
             }
-            if(!urlParameterMap.isEmpty()){
+            if(!urlParameterMap.isEmpty()) {
                 for(String param: urlParameterMap.keySet()) {
                     endPoint = endPoint.replace(param, urlParameterMap.get(param));
                 }
@@ -156,18 +156,19 @@ public with sharing class HttpRestCallOut {
     /**
      * @function    setHeader
      * @description use to set headers for HTTP callouts
-     * @param       headers Header string from custom metadata
+     * @param       apiParameters Api parameter from the custom metadata
      */
-    static void setHeader(String headers){
+    static void setHeader(APIParameter__mdt apiParameters){
         if(!headerMap.isEmpty()) {
             for(String key : headerMap.keySet()) {
                 request.setHeader(key, headerMap.get(key));
             }
         }
-        if(String.isNotBlank(headers)) {
-            for(String header: headers.split('\n')) {
-                String key = header.split(':')[0];
-                String value = header.split(':')[1];
+        if(String.isNotBlank(apiParameters.Header__c)) {
+            for(String header: apiParameters.Header__c.split('\n')) {
+                String key = header.split(':')[0].trim();
+                String value = header.split(':')[1].replaceAll('(\\r|\\n)+', '').trim();
+                value = value.equalsIgnoreCase('clientKey') ? apiParameters.ClientKey__c : value.equalsIgnoreCase('clientSecret') ? apiParameters.ClientSecret__c : value;
                 request.setHeader(key, value);
                 headerMap.put(Key, value);
             }

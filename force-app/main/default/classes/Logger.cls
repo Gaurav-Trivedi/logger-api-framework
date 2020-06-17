@@ -8,7 +8,7 @@
  * @Author              Gaurav Trivedi
  * @Group
  * @Last Modified By    : Gaurav Trivedi
- * @Last Modified On    : 6/12/2020, 9:00:08 AM
+ * @Last Modified On    : 6/16/2020, 12:36:55 PM
  * @Modification Log
  * **********************************************************************************************************************
  *										Modification Log
@@ -49,25 +49,6 @@ public with sharing class Logger {
      */
     public static void exception(String recordId, String message, Exception e){
         checkFutureLog('Exception',recordId, parameters(e, message, String.valueOf(timeStamp())), getAllLimits());
-    }
-
-    /**
-     * @function    log
-     * @description Use to create an log record in System Log object for debugging purpose only
-     * @param       recordId add recordId if applicable
-     * @param       message Add a custom message you want to display on record
-     * @example
-     * Logger.exception(recordId, 'Your custom error message', exceptionObject);
-     */
-    public static void log(String recordId, String message){
-        try{
-            if(dontProcess()) {
-                DmlException e = new DmlException();
-                checkFutureLog('Log',recordId, parameters(e, message, String.valueOf(timeStamp())), getAllLimits());
-            }
-        }catch(Exception ex) {
-            exception(ex);
-        }
     }
 
     /**
@@ -138,24 +119,6 @@ public with sharing class Logger {
         processId = getProcessId();
     }
 
-    /**
-     * @function    stop
-     * @description Use this function when you want to capture all information about any performance/log/exceptions.
-     *              You can treat this as a breakpoint.
-     * @example
-     * Logger.stop();
-     */
-    public static void stop(){
-        try{
-            if(dontProcess()) {
-                DmlException e = new DmlException();
-                String context = Trigger.isExecuting ? Trigger.isBefore ? Trigger.isInsert ? 'Before Insert' : Trigger.isUpdate ? 'Before Update' : Trigger.isDelete ? 'Before Delete' : 'Log' : Trigger.isAfter ? Trigger.isInsert ? 'After Insert' : Trigger.isUpdate ? 'After Update' : Trigger.isDelete ? 'After Delete' : Trigger.isUndelete ? 'After Undelete' : 'Log' : 'Log' : 'Log';
-                checkFutureLog(context,null,parameters(e, 'Logs', String.valueOf(timeStamp())), getAllLimits());
-            }
-        }catch(Exception ex) {
-            exception(ex);
-        }
-    }
     /**
      * @function    getProcessId
      * @description Use to get the generated process Id of the transaction. Use it when there is another future call
@@ -446,5 +409,43 @@ public with sharing class Logger {
     static Boolean dontProcess(){
         // TODO Add logic to run the Logger only for configured components
         return true;
+    }
+    /**
+     * @function    log
+     * @description Use to create an log record in System Log object for debugging purpose only
+     * @param       recordId add recordId if applicable
+     * @param       message Add a custom message you want to display on record
+     * @example
+     * Logger.exception(recordId, 'Your custom error message');
+     */
+    public static void log(String recordId, String message){
+        try{
+            if(dontProcess()) {
+                DmlException e = new DmlException();
+                String context = Trigger.isExecuting ? Trigger.isBefore ? Trigger.isInsert ? 'Before Insert' : Trigger.isUpdate ? 'Before Update' : Trigger.isDelete ? 'Before Delete' : 'Log' : Trigger.isAfter ? Trigger.isInsert ? 'After Insert' : Trigger.isUpdate ? 'After Update' : Trigger.isDelete ? 'After Delete' : Trigger.isUndelete ? 'After Undelete' : 'Log' : 'Log' : 'Log';
+                checkFutureLog(context,recordId, parameters(e, message, String.valueOf(timeStamp())), getAllLimits());
+            }
+        }catch(Exception ex) {
+            exception(ex);
+        }
+    }
+    
+    /**
+     * @function    stop
+     * @description Use this function when you want to capture all information about any performance/log/exceptions.
+     *              You can treat this as a breakpoint.
+     * @example
+     * Logger.stop();
+     */
+    public static void stop(){
+        try{
+            if(dontProcess()) {
+                DmlException e = new DmlException();
+                String context = Trigger.isExecuting ? Trigger.isBefore ? Trigger.isInsert ? 'Before Insert' : Trigger.isUpdate ? 'Before Update' : Trigger.isDelete ? 'Before Delete' : 'Log' : Trigger.isAfter ? Trigger.isInsert ? 'After Insert' : Trigger.isUpdate ? 'After Update' : Trigger.isDelete ? 'After Delete' : Trigger.isUndelete ? 'After Undelete' : 'Log' : 'Log' : 'Log';
+                checkFutureLog(context,null,parameters(e, 'Logs', String.valueOf(timeStamp())), getAllLimits());
+            }
+        }catch(Exception ex) {
+            exception(ex);
+        }
     }
 }

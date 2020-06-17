@@ -6,6 +6,8 @@
     <columns>Type__c</columns>
     <columns>TimeTaken__c</columns>
     <columns>HeapSize__c</columns>
+    <columns>LineNumber__c</columns>
+    <columns>ClassName__c</columns>
     <columns>Message__c</columns>
     <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>

@@ -4,9 +4,8 @@
     <description>Message defined by the System Apex class or custom message set while using logger.</description>
     <externalId>false</externalId>
     <label>Message</label>
-    <length>255</length>
-    <required>false</required>
+    <length>131072</length>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>LongTextArea</type>
+    <visibleLines>2</visibleLines>
 </CustomField>
