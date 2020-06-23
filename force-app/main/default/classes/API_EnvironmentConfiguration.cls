@@ -5,7 +5,7 @@
  * @Author         Gaurav Trivedi
  * @Group
  * @Last Modified By: Gaurav Trivedi
- * @Last Modified On: 6/4/2020, 3:40:36 PM
+ * @Last Modified On: 6/22/2020, 2:27:45 PM
  * @Modification Log
  * **********************************************************************************************************************
  *										Modification Log
@@ -33,13 +33,12 @@ public with sharing class API_EnvironmentConfiguration {
      * @param       serviceType integration service name, this should be same as the Label of APIParameter__mdt
      */
     public static APIParameter__mdt getConfiguration(String serviceType){
-        Logger.start();
         try{
             List<APIParameter__mdt> restApiParameterList = new List<APIParameter__mdt>();
             restApiParameterList = [SELECT Id, DeveloperName, MasterLabel, Label, QualifiedApiName, EndPoint__c, Type__c, ClientKey__c, ClientSecret__c, RequestMethod__c, Timeout__c, ClientCertificateName__c, EnvironmentType__c, SampleJsonRequest__c, SampleJsonResponse__c, Header__c, Compression__c FROM APIParameter__mdt WHERE MasterLabel =: serviceType];
             restApiParameter = new APIParameter__mdt();
             if(restApiParameterList.size() == 0) {
-                throw new DmlException('Please create RestAPIParameter configuration.');
+                throw new DmlException('Please create APIParameter configuration.');
             }else if(restApiParameterList.size() == 1) {
                 restApiParameter = restApiParameterList[0];
             }else {

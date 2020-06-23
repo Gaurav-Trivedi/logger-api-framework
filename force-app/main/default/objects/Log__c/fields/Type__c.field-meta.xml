@@ -61,6 +61,11 @@
                 <default>false</default>
                 <label>After Undelete</label>
             </value>
+            <value>
+                <fullName>Batch</fullName>
+                <default>false</default>
+                <label>Batch</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

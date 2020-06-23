@@ -7,7 +7,7 @@
  * @Author         Gaurav Trivedi
  * @Group
  * @Last Modified By: Gaurav Trivedi
- * @Last Modified On: 6/17/2020, 12:47:43 PM
+ * @Last Modified On: 6/22/2020, 8:55:50 PM
  * @Modification Log
  * **********************************************************************************************************************
  *										Modification Log
@@ -21,12 +21,12 @@ public with sharing class HttpRestCallOut {
     public HttpRestCallOut() {
         Logger.start();
     }
+    static Boolean continuousCallout = false;
     static Dom.Document bodyAsDocument;
     static Blob bodyAsBlob;
     static String body;
     static Map<String,String> urlParameterMap = new Map<String,String>();
-    static APIParameter__mdt apiParameters;
-    static HttpRequest request = new HttpRequest();
+    public static HttpRequest request = new HttpRequest();
     public static Map<String,String> headerMap = new Map<String, String>();
     public static API_Processor.RallyHttpRequest rallyRequest;
     public static API_Processor.RallyRestResponse rallyResponse;
@@ -40,9 +40,9 @@ public with sharing class HttpRestCallOut {
      * HttpResponse revenueResponse = HttpRestCallOut.makeRestApiCall('Revenue Calculation');
      */
     public static HttpResponse makeRestApiCall(String serviceName){
-        HttpResponse response;
+        HttpResponse response = new HttpResponse();
         try{
-            apiParameters = API_EnvironmentConfiguration.getConfiguration(serviceName);
+            APIParameter__mdt apiParameters = API_EnvironmentConfiguration.getConfiguration(serviceName);
             setHeader(apiParameters);
             request.setMethod(apiParameters.RequestMethod__c);
             request.setEndpoint(processEndPoint(apiParameters));
@@ -71,6 +71,8 @@ public with sharing class HttpRestCallOut {
             }
         }catch(Exception ex) {
             Logger.apiException(ex);
+        }finally{
+            prepareNextCallOut();
         }
         return response;
     }
@@ -146,7 +148,11 @@ public with sharing class HttpRestCallOut {
             }
             if(!urlParameterMap.isEmpty()) {
                 for(String param: urlParameterMap.keySet()) {
-                    endPoint = endPoint.replace(param, urlParameterMap.get(param));
+                    if(endPoint.containsIgnoreCase(param)) {
+                        endPoint = endPoint.replace(param, urlParameterMap.get(param));
+                    }else{
+                        endPoint += '&'+param + '=' + urlParameterMap.get(param);
+                    }
                 }
             }
         }
@@ -200,5 +206,20 @@ public with sharing class HttpRestCallOut {
             Logger.exception (e);
         }
         return hashCode;
+    }
+    
+    /**
+     * @function    prepareNextCallOut
+     * @description flushing all the key variables for next callout
+     */
+    static void prepareNextCallOut(){
+        headerMap.clear();
+        urlParameterMap.clear();
+        request = new HttpRequest();
+        bodyAsDocument = null;
+        bodyAsBlob = null;
+        body = null;
+        // rallyResponse = null;
+        // rallyRequest = null;
     }
 }

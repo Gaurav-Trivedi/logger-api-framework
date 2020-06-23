@@ -8,7 +8,7 @@
  * @Author              Gaurav Trivedi
  * @Group
  * @Last Modified By    : Gaurav Trivedi
- * @Last Modified On    : 6/16/2020, 12:36:55 PM
+ * @Last Modified On    : 6/22/2020, 10:18:05 PM
  * @Modification Log
  * **********************************************************************************************************************
  *										Modification Log
@@ -422,14 +422,14 @@ public with sharing class Logger {
         try{
             if(dontProcess()) {
                 DmlException e = new DmlException();
-                String context = Trigger.isExecuting ? Trigger.isBefore ? Trigger.isInsert ? 'Before Insert' : Trigger.isUpdate ? 'Before Update' : Trigger.isDelete ? 'Before Delete' : 'Log' : Trigger.isAfter ? Trigger.isInsert ? 'After Insert' : Trigger.isUpdate ? 'After Update' : Trigger.isDelete ? 'After Delete' : Trigger.isUndelete ? 'After Undelete' : 'Log' : 'Log' : 'Log';
+                String context = Trigger.isExecuting ? Trigger.isBefore ? Trigger.isInsert ? 'Before Insert' : Trigger.isUpdate ? 'Before Update' : Trigger.isDelete ? 'Before Delete' : 'Log' : Trigger.isAfter ? Trigger.isInsert ? 'After Insert' : Trigger.isUpdate ? 'After Update' : Trigger.isDelete ? 'After Delete' : Trigger.isUndelete ? 'After Undelete' : 'Log' : 'Log' : System.isBatch() ? 'Batch' : 'Log';
                 checkFutureLog(context,recordId, parameters(e, message, String.valueOf(timeStamp())), getAllLimits());
             }
         }catch(Exception ex) {
             exception(ex);
         }
     }
-    
+
     /**
      * @function    stop
      * @description Use this function when you want to capture all information about any performance/log/exceptions.
@@ -441,7 +441,7 @@ public with sharing class Logger {
         try{
             if(dontProcess()) {
                 DmlException e = new DmlException();
-                String context = Trigger.isExecuting ? Trigger.isBefore ? Trigger.isInsert ? 'Before Insert' : Trigger.isUpdate ? 'Before Update' : Trigger.isDelete ? 'Before Delete' : 'Log' : Trigger.isAfter ? Trigger.isInsert ? 'After Insert' : Trigger.isUpdate ? 'After Update' : Trigger.isDelete ? 'After Delete' : Trigger.isUndelete ? 'After Undelete' : 'Log' : 'Log' : 'Log';
+                String context = Trigger.isExecuting ? Trigger.isBefore ? Trigger.isInsert ? 'Before Insert' : Trigger.isUpdate ? 'Before Update' : Trigger.isDelete ? 'Before Delete' : 'Log' : Trigger.isAfter ? Trigger.isInsert ? 'After Insert' : Trigger.isUpdate ? 'After Update' : Trigger.isDelete ? 'After Delete' : Trigger.isUndelete ? 'After Undelete' : 'Log' : 'Log' : System.isBatch() ? 'Batch' : 'Log';
                 checkFutureLog(context,null,parameters(e, 'Logs', String.valueOf(timeStamp())), getAllLimits());
             }
         }catch(Exception ex) {
